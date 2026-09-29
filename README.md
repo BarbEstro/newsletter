@@ -31,14 +31,14 @@ spring.mail.properties.mail.smtp.auth=true
 spring.mail.properties.mail.smtp.starttls.enable=true
 
 ```
-####Avvio
+### Avvio
 Cliccare con il tasto destro **Application -> RUN AS -> Spring Boot App**. All'avvio del server, Spring Boot crea automaticamente la struttura delle tabelle su PostgreSQL.
 Tramite il componente DataInitializer, vengono popolati automaticamente alcuni record di test per consentire la verifica immediata delle funzionalità.
 All'interno del progetto si può trovare la collezione postman per facilitare le chiamate api.
 
 ---
 
-##2 Architettura
+## 2. Architettura
 ### Modellazione del Dominio
 Per garantire la normalizzazione del database e la manutenibilità del codice, il modello include tre entità principali:
 * **`Employee`**: Entità centrale che rappresenta il dipendente.
@@ -54,12 +54,12 @@ L'applicazione rispetta il principio di separazione delle responsabilità (*Sepa
 
 ---
 
-### Automation & Scheduling
+## 3. Automation & Scheduling
 * **`BirthdayScheduler` (`@EnableScheduling`)**: Componente schedulato tramite l'annotazione `@Scheduled`, configurato per eseguirsi automaticamente ogni mattina alle **09:00**. 
 Il task identifica i festeggiati del giorno dal database ed evoca il servizio di invio delle e-mail di auguri tramite Mailtrap.
 
 --
-## 🔮 Sviluppi Futuri e Possibili Miglioramenti
+## 4. 🔮 Sviluppi Futuri e Possibili Miglioramenti
 
 Sebbene il core dell'applicazione sia completamente funzionale, sono stati individuati i seguenti punti di estensione per la validazione e la consistenza dei dati:
 
