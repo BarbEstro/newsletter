@@ -1,0 +1,180 @@
+{
+  "info": {
+    "_postman_id": "fcf14a54-1c66-465e-b6ba-9de34204d71e",
+    "name": "Newsletter",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "14208629"
+  },
+  "item": [
+    {
+      "name": "inoltro forzato email di compleano",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/emails/send-birthdays",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "emails",
+            "send-birthdays"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Ottieni tutti i dipendenti",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/employees/active",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "employees",
+            "active"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "cerca impiegato tramite id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/employees/:id",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "employees",
+            ":id"
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": "22"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "cambio stato impiegato id",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/employees/:id/status?status=ACTIVE",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "employees",
+            ":id",
+            "status"
+          ],
+          "query": [
+            {
+              "key": "status",
+              "value": "INACTIVE",
+              "disabled": true
+            },
+            {
+              "key": "status",
+              "value": "ACTIVE"
+            }
+          ],
+          "variable": [
+            {
+              "key": "id",
+              "value": "25"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "cancella impiegato id",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "storico email",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8080/api/emails/logs",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "emails",
+            "logs"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "New Request",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"subject\": \"Auguri di Buon Compleanno!\",\r\n  \"template\": \"Oggi festeggiamo i colleghi: {celebrants}. Tanti auguri da tutto il team!\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8080/api/emails/template",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "emails",
+            "template"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
