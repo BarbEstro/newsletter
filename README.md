@@ -35,11 +35,15 @@ Cliccare con il tasto destro **Application -> RUN AS -> Spring Boot App**. All'a
 Tramite il componente DataInitializer, vengono popolati automaticamente alcuni record di test per consentire la verifica immediata delle funzionalità.
 All'interno del progetto si può trovare la collezione postman per facilitare le chiamate api.
 
+---
+
 ##2 Architettura
 ### Modellazione del Dominio
 Per garantire la normalizzazione del database e la manutenibilità del codice, il modello include tre entità principali:
 * **`Employee`**: Entità centrale che rappresenta il dipendente.
 * **`Team`** e **`WorkLocation`**: Modellate come entità dedicate (anziché semplici stringhe) per evitare ridondanza dei dati, garantire la consistenza referenziale e consentire una gestione dinamica delle sedi e dei team aziendali.
+
+---
 
 ### Architettura a 3 Livelli (3-Tier Architecture)
 L'applicazione rispetta il principio di separazione delle responsabilità (*Separation of Concerns*):
@@ -47,10 +51,13 @@ L'applicazione rispetta il principio di separazione delle responsabilità (*Sepa
 * **Service Layer (`@Service`)**: Custodisce la logica di business. Intercetta i dati dei repository, filtra esclusivamente i dipendenti attivi (`active = true`) ed effettua il controllo sulla corrispondenza della data di nascita con la data corrente.
 * **Repository Layer (`@Repository`)**: Interfaccia Spring Data JPA per l'accesso diretto e l'astrazione delle operazioni CRUD sul database PostgreSQL.
 
+---
+
 ### Automation & Scheduling
 * **`BirthdayScheduler` (`@EnableScheduling`)**: Componente schedulato tramite l'annotazione `@Scheduled`, configurato per eseguirsi automaticamente ogni mattina alle **09:00**. 
 Il task identifica i festeggiati del giorno dal database ed evoca il servizio di invio delle e-mail di auguri tramite Mailtrap.
 
+--
 ## 🔮 Sviluppi Futuri e Possibili Miglioramenti
 
 Sebbene il core dell'applicazione sia completamente funzionale, sono stati individuati i seguenti punti di estensione per la validazione e la consistenza dei dati:
