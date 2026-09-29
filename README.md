@@ -30,6 +30,7 @@ spring.mail.password=tua_password_mailtrap
 spring.mail.properties.mail.smtp.auth=true
 spring.mail.properties.mail.smtp.starttls.enable=true
 
+```
 ####Avvio
 Cliccare con il tasto destro **Application -> RUN AS -> Spring Boot App**. All'avvio del server, Spring Boot crea automaticamente la struttura delle tabelle su PostgreSQL.
 Tramite il componente DataInitializer, vengono popolati automaticamente alcuni record di test per consentire la verifica immediata delle funzionalità.
