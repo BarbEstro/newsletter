@@ -10,43 +10,85 @@ Applicazione Spring Boot progettata secondo il pattern architetturale a 3 livell
 * **Java**: JDK 17 (o superiore)
 * **Database**: PostgreSQL (fornito via Docker, vedi sotto)
 * **Docker** e **Docker Compose**
-* **Email Testing**: Account Mailtrap (SMTP Sandbox)
-* **API Testing**: Postman
 
 ### Avvio del Database con Docker
-Il progetto include un file `docker-compose.yml` che avvia un container PostgreSQL già configurato con le credenziali di default usate in `application.properties` (db `newsletter_db`, utente/password `postgres`).
+Il progetto include un file `docker-compose.yml` che avvia un container PostgreSQL già configurato con le credenziali di default
 
 Dalla root del progetto:
 
 ```bash
-docker compose up -d
+docker-compose up -d
 ```
 
-Il database sarà raggiungibile su `localhost:5432`. Per fermarlo: `docker compose down` (aggiungere `-v` per rimuovere anche i dati persistiti).
-
-### Configurazione del Database e Mailtrap
-Il file `src/main/resources/application.properties` è già configurato per puntare al database avviato con Docker. Se si preferisce usare un'istanza PostgreSQL diversa, modificare le credenziali di conseguenza. Resta da configurare **Mailtrap**:
-
-```properties
-# Configurazione PostgreSQL
-spring.datasource.url=jdbc:postgresql://localhost:5432/newsletter_db
-spring.datasource.username=tuo_username_postgres
-spring.datasource.password=tua_password_postgres
-spring.jpa.hibernate.ddl-auto=update
-
-# Configurazione Mailtrap SMTP
-spring.mail.host=sandbox.smtp.mailtrap.io
-spring.mail.port=2525
-spring.mail.username=tuo_username_mailtrap
-spring.mail.password=tua_password_mailtrap
-spring.mail.properties.mail.smtp.auth=true
-spring.mail.properties.mail.smtp.starttls.enable=true
-
-```
 ### Avvio
-Assicurarsi che il container PostgreSQL sia attivo (`docker compose up -d`), poi cliccare con il tasto destro **Application -> RUN AS -> Spring Boot App**. All'avvio del server, Spring Boot crea automaticamente la struttura delle tabelle su PostgreSQL.
+Assicurarsi che il container PostgreSQL sia attivo (`docker-compose up -d`), 
 Tramite il componente DataInitializer, vengono popolati automaticamente alcuni record di test per consentire la verifica immediata delle funzionalità.
-All'interno del progetto si può trovare la collezione postman per facilitare le chiamate api.
+Attraverso un nuovo terminale è possibile eseguire i seguenti comandi:
+
+#### WorkLocation curl
+```bash
+# Crea una sede
+curl -X POST http://localhost:8080/api/work-locations \
+  -H "Content-Type: application/json" \
+  -d '{"city":"Milano","address":"Via Roma 1"}'
+
+# Lista sedi
+curl http://localhost:8080/api/work-locations
+```
+#### Teams
+```bash
+# Crea un team
+curl -X POST http://localhost:8080/api/teams \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Engineering"}'
+
+# Lista team
+curl http://localhost:8080/api/teams
+
+# Singolo team
+curl http://localhost:8080/api/teams/1
+```
+#### Employes
+```bash
+# Crea un dipendente (usa gli id reali di workLocation/team restituiti sopra)
+curl -X POST http://localhost:8080/api/employees \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name":"Mario",
+    "surname":"Rossi",
+    "email":"mario.rossi@example.com",
+    "dateOfBirth":"1990-10-09",
+    "workLocationId":1,
+    "teams":[1]
+  }'
+
+# Dipendente per id
+curl http://localhost:8080/api/employees/1
+
+# Lista dipendenti attivi
+curl http://localhost:8080/api/employees/active
+
+# Cambia stato (ACTIVE / INACTIVE)
+curl -X PATCH http://localhost:8080/api/employees/1/status \
+  -H "Content-Type: application/json" \
+  -d '{"status":"INACTIVE"}'
+
+# Elimina dipendente
+curl -X DELETE http://localhost:8080/api/employees/1
+```
+#### Emails
+```bash
+# Invia manualmente le email di compleanno
+curl -X POST http://localhost:8080/api/emails/send-birthdays
+
+# Storico log email inviate
+curl http://localhost:8080/api/emails/logs
+
+# Aggiorna il template email
+curl -X PUT http://localhost:8080/api/emails/template \
+  -H "Content-Type: application/json" \
+  -d '{"subject":"Buon Compleanno!","template":"Tanti auguri, {name}!"}'
+```
 
 ---
 
